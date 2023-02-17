@@ -17,14 +17,17 @@
     <script src="https://unpkg.com/simple-jscalendar@1.4.3/source/jsCalendar.min.js" integrity="sha384-JqNLUzAxpw7zEu6rKS/TNPZ5ayCWPUY601zaig7cUEVfL+pBoLcDiIEkWHjl07Ot" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://unpkg.com/simple-jscalendar@1.4.3/source/jsCalendar.min.css" integrity="sha384-+OB2CadpqXIt7AheMhNaVI99xKH8j8b+bHC8P5m2tkpFopGBklD3IRvYjPekeWIJ" crossorigin="anonymous">
 </head>
-<body>
+<body style="height: 100vh;">
     <nav class="navbar navbar-expand-lg navbar-light bg-light px-3">
+        <a href="../index.html">
+            <img src="../assets/logos/IQnicLogo.png" alt="Logo" class="mx-2" style="max-width: 70px;">
+        </a>
         <div class="container-fluid d-flex justify-content-between">
-            <form class="d-flex">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-dark" type="submit">Search</button>
+            <form class="d-flex search-container">
+                <input class="form-control me-2 search-input" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-dark" type="button" onclick="searchFunction()">Search</button>
             </form>
-            <a class="btn btn-dark" href="#">Profile</a>
+            <a class="btn btn-dark" href="./pages/personalProfile.html">Profile</a>
         </div>
     </nav>
 
@@ -36,11 +39,48 @@
                     <h1 class="mb-3">My Name</h1>
                     <p class="lead">myname@utdallas.edu</p>
                     <p class="lead">Subjects: CS2305, MATH2301, CHEM2301</p>
-                    <button class="btn btn-dark">Register as Tutor</button>
+                    <button class="btn btn-dark"  type="button" data-bs-toggle="modal" data-bs-target="#signUpTutorModal">Register as Tutor</button>
+                    <div class="modal fade" id="signUpTutorModal" tabindex="-1">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Register</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                   <p class="lead mt-2 mb-0">Enter a short bio about yourself: </p> 
+                                    <input type="text">
+                                </div>
+                                <div class="row">
+                                    <p class="lead mt-2 mb-0">What subjects do you teach? </p>
+                                    <input type="text">
+                                </div>
+                                <div class="row">
+                                    <p class="lead mt-2 mb-0">What hours are you available?</p>
+                                    <input type="text">
+                                </div>
+                                <div class="row">
+                                    <p class="lead mt-2 mb-0"">Upload a profile pic:</p>
+                                    <div class=" d-flex justify-content-center">
+                                        <input type="file">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <footer class="p-4 mt-2 text-center" style="position: absolute; bottom: 0; width: 100%;">
+        UTD Senior Design Project 2023 --- Team 19 
+    </footer>
 
     <script src="scripts/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
