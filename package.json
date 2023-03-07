@@ -1,0 +1,22 @@
+{
+  "name": "utdesign",
+  "version": "1.0.0",
+  "description": "CS Project: Online Tutoring Application (project 33)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sebrinakate/UTDesign.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sebrinakate/UTDesign/issues"
+  },
+  "homepage": "https://github.com/sebrinakate/UTDesign#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
