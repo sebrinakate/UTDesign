@@ -15,13 +15,16 @@ const tutorSchema = new mongoose.Schema({
         }
     ],
     subjects: [
-        {type: String}
+
     ],
     upcomingAppointments: [
-        {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
+        
     ],
     totalHours: {type: Number}
 });
+
+// Creating user model
+const Tutor = mongoose.model("Tutor", tutorSchema);
 
 // Creating user model
 const Tutor = mongoose.model("Tutor", tutorSchema);
