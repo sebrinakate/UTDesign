@@ -23,5 +23,5 @@ const tutorSchema = new mongoose.Schema({
     totalHours: {type: Number}
 });
 
-// Creating tutor model
+// Creating user model
 const Tutor = mongoose.model("Tutor", tutorSchema);
