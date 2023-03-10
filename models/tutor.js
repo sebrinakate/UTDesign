@@ -1,0 +1,27 @@
+const mongoose = require("mongoose");
+
+// Creating Tutor schema
+const tutorSchema = new mongoose.Schema({
+    name: {
+        firstName: {type: String, required: true},
+        lastName: {type: String, required: true}
+    },
+    email: {type: String, required: true},
+    password: {type: String, required: true},
+    availablility: [
+        {
+            day: {type: String},
+            hours: []
+        }
+    ],
+    subjects: [
+
+    ],
+    upcomingAppointments: [
+        
+    ],
+    totalHours: {type: Number}
+});
+
+// Creating user model
+const Tutor = mongoose.model("Tutor", tutorSchema);
