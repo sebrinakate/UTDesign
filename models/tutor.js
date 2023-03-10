@@ -15,10 +15,10 @@ const tutorSchema = new mongoose.Schema({
         }
     ],
     subjects: [
-
+        {type: String}
     ],
     upcomingAppointments: [
-        
+        {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
     ],
     totalHours: {type: Number}
 });

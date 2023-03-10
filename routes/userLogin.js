@@ -1,7 +1,8 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
-const mongoose = require("mongoose");
+const Student = require("../models/student");
+const Tutor = require("../models/tutor");
 
 // Displaying user login page
 router.get("/", (req, res) => {
@@ -12,7 +13,7 @@ router.get("/", (req, res) => {
 router.post("/signup", (req, res) => {
 
     // Creating user document
-    const user = new User({
+    const student = new Student({
         firstName: req.body.firstName,
         lastName: req.body.lastName,
         email: req.body.email,
@@ -20,13 +21,16 @@ router.post("/signup", (req, res) => {
     });
 
     // Saving user document to database
-    user.save((err) => {
+    student.save((err) => {
         if (err) {
             console.log(err);
         } else {
-            console.log("User saved to database");
+            console.log("Student saved to database");
         }
     });
+
+    // Redirecting to home page
+    res.redirect("/");
 });
 
 // Handling user login
@@ -34,7 +38,7 @@ router.post("/login", (req, res) => {
 
     // Finding user document in database
 
-    // Redurecting to home page
+    // Redirecting to home page
     res.redirect("/");
 });
 
