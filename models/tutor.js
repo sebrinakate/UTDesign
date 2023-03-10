@@ -25,6 +25,3 @@ const tutorSchema = new mongoose.Schema({
 
 // Creating user model
 const Tutor = mongoose.model("Tutor", tutorSchema);
-
-// Creating user model
-const Tutor = mongoose.model("Tutor", tutorSchema);
