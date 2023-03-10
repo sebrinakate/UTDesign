@@ -9,10 +9,12 @@ app.use(express.static(path.join(__dirname, "frontend")));
 
 // Importing routes
 const homeRoute = require("./routes/home.js");
+const userLoginRoute = require("./routes/userLogin.js");
 
 // Handling routes requests
 app.use("/", homeRoute);
+app.use("/userLogin", userLoginRoute);
 
 app.listen(port, () => {
   console.log(`Server open on port: ${port}`);
-});
+}); 
