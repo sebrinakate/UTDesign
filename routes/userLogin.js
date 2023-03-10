@@ -20,6 +20,17 @@ router.post("/signup", (req, res) => {
         password: req.body.password
     });
 
+    // Checking if all fields are filled
+    if(!student.firstName || !student.lastName || !student.email || !student.password) {
+        console.log("Please fill in all fields");
+        return;
+    }
+
+    if(password.length < 8) {
+        console.log("Password must be at least 8 characters long");
+        return;
+    }
+
     // Saving user document to database
     student.save((err) => {
         if (err) {
