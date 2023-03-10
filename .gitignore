@@ -1,3 +1,7 @@
 node_modules
+<<<<<<< HEAD
 .env
 route.rest
+=======
+.env
+>>>>>>> c3d4211 (Added git ignore and removed node_module)
