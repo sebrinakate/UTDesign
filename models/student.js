@@ -1,23 +1,22 @@
-const { ObjectId } = require("bson");
 const mongoose = require("mongoose");
 
 // Creating Student schema
 const studentSchema = new mongoose.Schema({
     name: {
-        firstName: {String, required: true},
-        lastName: {String, required: true}
+        firstName: {type: String, required: true},
+        lastName: {type: String, required: true}
     },
-    email: {String, required: true},
-    password: {String, required: true},
+    email: {type: String, required: true},
+    password:{type: String, required: true},
     favoriteTutors: [
         {
             tutorId: {type: mongoose.Schema.Types.ObjectId, ref: "Tutor"},
-            tutorName: {String, required: true}
+            tutorName: {String}
         }
     ],
     totalHours: {Number},
     upcomingAppointments: [
-        
+        {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
     ]
 });
 
