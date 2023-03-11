@@ -47,6 +47,9 @@ router.post("/signup", (req, res) => {
 // Handling user login
 router.post("/login", (req, res) => {
 
+    const email = req.body.email;
+    const password = req.body.password;
+    
     // Finding user document in database
 
     // Redirecting to home page
