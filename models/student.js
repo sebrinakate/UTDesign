@@ -21,4 +21,7 @@ const studentSchema = new mongoose.Schema({
 });
 
 // Creating user model
-const User = mongoose.model("Student", studentSchema);
+const Student = mongoose.model("Student", studentSchema, "Student");
+
+// Exporting model
+module.exports = Student;
