@@ -14,14 +14,14 @@ const studentSchema = new mongoose.Schema({
             tutorName: {String}
         }
     ],
-    totalHours: {Number},
+    totalHours: {type: Number},
     upcomingAppointments: [
         {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
     ]
 });
 
 // Creating user model
-const Student = mongoose.model("Student", studentSchema, "Student");
+const User = mongoose.model("Student", studentSchema, "Student");
 
-// Exporting model
-module.exports = Student;
+// Exporting user model
+module.exports = User;

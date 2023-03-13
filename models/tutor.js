@@ -26,5 +26,5 @@ const tutorSchema = new mongoose.Schema({
 // Creating user model
 const Tutor = mongoose.model("Tutor", tutorSchema, "Tutor");
 
-// Exporting model
+// Exporting user model
 module.exports = Tutor;
