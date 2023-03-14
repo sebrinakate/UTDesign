@@ -16,6 +16,8 @@ router.get("/", (req, res) => {
 
 // Handling user signup
 router.post("/signup", async (req, res) => {
+    // password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number
+    const strongPassword = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,})");
 
     // Creating user document
     const student = new studentModel({
@@ -38,8 +40,8 @@ router.post("/signup", async (req, res) => {
         return;
     }
 
-    if(password.length < 8) {
-        console.log("Password must be at least 8 characters long");
+    if(!strongPassword.test(student.password)) {
+        console.log("Password is not strong enough");
         return;
     }
 
