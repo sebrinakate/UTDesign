@@ -7,20 +7,29 @@ const router = express.Router();
 const studentModel = require("../models/student");
 const tutorModel = require("../models/tutor");
 
+currentUserId = 0;
+
 // Displaying user login page
 router.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "../frontend/pages/userLogin.html"));
 });
 
 // Handling user signup
-router.post("/signup", (req, res) => {
+router.post("/signup", async (req, res) => {
 
     // Creating user document
     const student = new studentModel({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        name: {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName
+        },
         email: req.body.email,
-        password: req.body.password
+        password: req.body.password,
+        favoriteTutors: [
+        ],
+        totalHours: "0",
+        upcomingAppointments: [
+        ]
     });
 
     // Checking if all fields are filled
@@ -35,20 +44,21 @@ router.post("/signup", (req, res) => {
     }
 
     // Saving user document to database
-    student.save((err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Student saved to database");
-        }
-    });
+    try {
+        const newStudent = await student.save();
+        currentUserId = newStudent.id;
+        res.status(201).json(newStudent);
+    }
+    catch (err) {
+        res.status(400).json({message: err.message});
+    }
 
     // Redirecting to home page
     res.redirect("/");
 });
 
 // Handling user login
-router.post("/login", (req, res) => {
+router.post("/login", async (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
@@ -56,17 +66,15 @@ router.post("/login", (req, res) => {
     // Finding user document in database
     // Find the email the user input
     // still don't know if i want to do the password hashed for use bycrypt
-    studentModel.find({email: email, password: password}, (err, user) => {
-        if (err) {
-            console.log(err);
-        } else {
-            if (user) {
-                console.log("User found");
-            } else {
-                console.log("User not found");
-            }
-        }
-    });
+    // if so, then i need to use bcrypt.compareSync(password, user.password)
+    try {
+        const student = await studentModel.find({email: email, password: password}).select("id email");
+        res.send(student);
+    }
+    catch (err) {
+        res.status(500).json({message: err.message});
+    }
+
 
     // Redirecting to home page
     res.redirect("/");
@@ -77,7 +85,7 @@ router.post("/login", (req, res) => {
 // Get first student from database
 router.get("/getStudent", async (req, res) => {
     try {
-        const student = await studentModel.find();
+        const student = await studentModel.find({email: "jd@gmail.com"}).select("name.firstName id email");
         res.send(student);
     } catch (err) {
         res.status(500).json({message: err.message});
@@ -87,26 +95,7 @@ router.get("/getStudent", async (req, res) => {
 // USED FOR TESTING PURPOSES
 // DELETE THIS LATER
 router.post("/writeStudent", async (req, res) => {
-    const student = new studentModel({
-        name: {
-            firstName: "John",
-            lastName: "Doe"
-        },
-        email: "jd@gmail.com",
-        password: "password",
-        favoriteTutors: [
-        ],
-        totalHours: "0",
-        upcomingAppointments: [
-        ]
-    });
-
-    try {  
-        const newStudent = await student.save();
-        res.status(201).json(newStudent);
-    } catch (err) {
-        res.status(400).json({message: err.message});
-    }
+    writeStudent("joe", "smith", "js@gmail.com", "password");
 });
 
 module.exports = router;
