@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const router = express.Router();
 
+const {createHash} = require("crypto");
+
 // Importing models
 const studentModel = require("../models/student");
 const tutorModel = require("../models/tutor");
@@ -26,7 +28,7 @@ router.post("/signup", async (req, res) => {
             lastName: req.body.lastName
         },
         email: req.body.email,
-        password: req.body.password,
+        password: createHash("sha256").update(req.body.password).digest("hex"),
         favoriteTutors: [
         ],
         totalHours: "0",
@@ -64,13 +66,15 @@ router.post("/login", async (req, res) => {
 
     const email = req.body.email;
     const password = req.body.password;
+    const hashPassword = createHash("sha256").update(password).digest("hex")
 
     // Finding user document in database
     // Find the email the user input
     // still don't know if i want to do the password hashed for use bycrypt
     // if so, then i need to use bcrypt.compareSync(password, user.password)
     try {
-        const student = await studentModel.find({email: email, password: password}).select("id email");
+        const student = await studentModel.find({email: email, password: hashPassword}).select("id email");
+        currentUserId = student.id;
         res.send(student);
     }
     catch (err) {
@@ -86,8 +90,9 @@ router.post("/login", async (req, res) => {
 // DELETE THIS LATER
 // Get first student from database
 router.get("/getStudent", async (req, res) => {
+    const hashPass = createHash("sha256").update("hashTestPassword").digest("hex");
     try {
-        const student = await studentModel.find({email: "jd@gmail.com"}).select("name.firstName id email");
+        const student = await studentModel.find({email: "jimbo@gmail.com", password: hashPass}).select("name.firstName id email password");
         res.send(student);
     } catch (err) {
         res.status(500).json({message: err.message});
@@ -97,7 +102,30 @@ router.get("/getStudent", async (req, res) => {
 // USED FOR TESTING PURPOSES
 // DELETE THIS LATER
 router.post("/writeStudent", async (req, res) => {
-    writeStudent("joe", "smith", "js@gmail.com", "password");
+    // Creating user document
+    const student = new studentModel({
+        name: {
+            firstName: "Jimbo",
+            lastName: "John"
+        },
+        email: "jimbo@gmail.com",
+        password: createHash("sha256").update("hashTestPassword").digest("hex"),
+        favoriteTutors: [
+        ],
+        totalHours: "0",
+        upcomingAppointments: [
+        ]
+    });
+
+    // Saving user document to database
+    try {
+        const newStudent = await student.save();
+        currentUserId = newStudent.id;
+        res.status(201).json(newStudent);
+    }
+    catch (err) {
+        res.status(400).json({message: err.message});
+    }
 });
 
 module.exports = router;
