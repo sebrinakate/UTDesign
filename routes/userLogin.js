@@ -33,7 +33,8 @@ router.post("/signup", async (req, res) => {
         ],
         totalHours: "0",
         upcomingAppointments: [
-        ]
+        ],
+        loggedIn: true
     });
 
     // Checking if all fields are filled
@@ -81,6 +82,14 @@ router.post("/login", async (req, res) => {
         res.status(500).json({message: err.message});
     }
 
+    // Update student document to loggedIn to true
+    // IDK IF THIS WORKS
+    try {
+        const student = await studentModel.updateOne({email: email, password: hashPassword}, {loggedIn: true});
+    }
+    catch (err) {
+        res.status(500).json({message: err.message});
+    }
 
     // Redirecting to home page
     res.redirect("/");
