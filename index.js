@@ -19,10 +19,12 @@ app.use(express.static(path.join(__dirname, "frontend")));
 // Importing routes
 const homeRoute = require("./routes/home.js");
 const userLoginRoute = require("./routes/userLogin.js");
+const upcomingApptsRoute = require("./routes/home.js");
 
 // Handling routes requests
 app.use("/", homeRoute);
 app.use("/userLogin", userLoginRoute);
+app.use("/upcomingAppts", upcomingApptsRoute);
 
 // THIS IS JUST TO TEST CONNECTION TO DATABASE
 // YOU CAN DELETE THIS
