@@ -11,3 +11,8 @@ router.get("/", (req, res) => {
 
 // Exporting router
 module.exports = router;
+
+// handling total hours
+router.get("/", (Req, res) => {
+ //TODO: get document with total hours
+});
