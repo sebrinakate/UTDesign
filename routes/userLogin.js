@@ -58,8 +58,8 @@ router.post("/signup", async (req, res) => {
         res.status(400).json({message: err.message});
     }
 
-    // Redirecting to home page
-    res.redirect("/");
+    // Redirecting to home page in home.js
+    res.redirect("../");
 });
 
 // Handling user login
@@ -91,8 +91,8 @@ router.put("/login", async (req, res) => {
         res.status(500).json({message: err.message});
     }
 
-    // Redirecting to home page
-    res.redirect("/");
+    // Redirecting to home page in home.js
+    res.redirect("../");
 });
 
 // USED FOR TESTING PURPOSES
