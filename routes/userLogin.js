@@ -85,7 +85,7 @@ router.put("/login", async (req, res) => {
     // Update student document to loggedIn to true
     // IDK IF THIS WORKS
     try {
-        const student = await studentModel.updateOne({email: email, password: hashPassword}, {loggedIn: true});
+        const student = await studentModel.update({email: email, password: hashPassword}, {loggedIn: true});
     }
     catch (err) {
         res.status(500).json({message: err.message});
