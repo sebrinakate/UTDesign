@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 
+
 // Creating express router  
 const router = express.Router();
 
@@ -12,7 +13,28 @@ router.get("/", (req, res) => {
 // Exporting router
 module.exports = router;
 
-// handling total hours
-router.get("/", (Req, res) => {
- //TODO: get document with total hours
+// handling student total hours
+router.get("/", async (Req, res) => {
+// TODO: specify the specific student?
+const email = req.body.email;
+
+ try {
+  const totalHours = await studentModel.find({email: email}).select("totalHours");
+  res.send(totalHours);
+} catch (err) {
+  res.status(500).json({message: err.message});
+}
 });
+
+// handling tutor total hours
+router.get("/", async (Req, res) => {
+  // TODO: specify the specific tutor?
+  const email = req.body.email;
+
+  try {
+   const totalHours = await tutorModel.find({email: email}).select("totalHours");
+   res.send(totalHours);
+ } catch (err) {
+   res.status(500).json({message: err.message});
+ }
+ });
