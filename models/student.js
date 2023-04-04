@@ -17,7 +17,8 @@ const studentSchema = new mongoose.Schema({
     totalHours: {Number},
     upcomingAppointments: [
         {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
-    ]
+    ],
+    loggedIn: {type: Boolean}
 });
 
 // Creating user model
