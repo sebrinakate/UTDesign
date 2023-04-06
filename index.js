@@ -19,10 +19,14 @@ app.use(express.static(path.join(__dirname, "frontend")));
 // Importing routes
 const homeRoute = require("./routes/home.js");
 const userLoginRoute = require("./routes/userLogin.js");
+const searchRoute = require("./routes/search.js");
 
 // Handling routes requests
 app.use("/", homeRoute);
 app.use("/userLogin", userLoginRoute);
+app.use("/search", searchRoute);
+
+
 
 // THIS IS JUST TO TEST CONNECTION TO DATABASE
 // YOU CAN DELETE THIS
@@ -33,6 +37,11 @@ app.get("/test", async (req, res) => {
   res.send(await studentSchema.find());
 });
 
-app.listen(port, () => {
+/*app.listen(port, () => {
   console.log(`Server open on port: ${port}`);
-}); 
+}); */
+
+app.listen(port, function (err) {
+  if (err) console.log(err);
+  console.log("Server listening on PORT", port);
+});
