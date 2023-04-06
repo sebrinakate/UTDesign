@@ -15,11 +15,6 @@ router.get("/favorites", async (req, res) => {
 
     // render favorites page
     res.render("favorites", { student, tutor });
-
-    //for(let numFav of tutor){
-        //if(student.favorites[numFav.tutorID])
-            // display list of favorited tutors
-    //}
 });
 
 // ---------- put favorites ----------
