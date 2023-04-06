@@ -4,14 +4,16 @@ const path = require("path");
 // Creating express router  
 const router = express.Router();
 
-// get favorites
+// ---------- get favorites ----------
 router.get("/favorites", async (req, res) => {
     const studentID = req.session.studentID;
     const query = { tutorID: studentID };
 
+    // find student and tutor
     const student = await db.Student.findOne(ObjectID(studentID));
     const tutor = await db.Tutor.find(query).toArray();
 
+    // render favorites page
     res.render("favorites", { student, tutor });
 
     //for(let numFav of tutor){
@@ -20,7 +22,7 @@ router.get("/favorites", async (req, res) => {
     //}
 });
 
-// put favorites
+// ---------- put favorites ----------
 router.put("/favorites", async (req, res) => {
     const studentID = req.session.studentID;
     const tutorID = req.body.tutorID;
@@ -49,7 +51,7 @@ router.put("/favorites", async (req, res) => {
 });
 
 
-// delete favorites
+// ---------- delete favorites ----------
 router.delete("/favorites", async (req, res) => {
     const studentID = req.session.studentID;
     const tutorID = req.body.tutorID;
