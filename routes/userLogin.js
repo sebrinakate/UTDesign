@@ -9,7 +9,7 @@ const {createHash} = require("crypto");
 const studentModel = require("../models/student");
 const tutorModel = require("../models/tutor");
 
-currentUserId = 0;
+currentUserId = "";
 
 // Displaying user login page
 router.get("/", (req, res) => {
@@ -71,8 +71,6 @@ router.put("/login", async (req, res) => {
 
     // Finding user document in database
     // Find the email the user input
-    // still don't know if i want to do the password hashed for use bycrypt
-    // if so, then i need to use bcrypt.compareSync(password, user.password)
     try {
         const student = await studentModel.find({email: email, password: hashPassword}).select("id email");
         currentUserId = student.id;
@@ -85,11 +83,11 @@ router.put("/login", async (req, res) => {
     // Update student document to loggedIn to true
     // IDK IF THIS WORKS
     try {
-        const student = await studentModel.update({id: currentUserId}, {loggedIn: true});
+        const student = await studentModel.findByIdAndUpdate({id: currentUserId}, {loggedIn: true});
         // if tutor make login true
         if(tutorModel.find({id: currentUserId}))
         {
-            const tutor = await tutorModel.update({id: currentUserId}, {loggedIn: true});
+            const tutor = await tutorModel.findByIdAndUpdate({id: currentUserId}, {loggedIn: true});
         }
     }
     catch (err) {
