@@ -1,3 +1,6 @@
+const studentModel = require("../models/student");
+const tutorModel = require("../models/tutor");
+
 const express = require("express");
 const path = require("path");
 
@@ -6,15 +9,24 @@ const router = express.Router();
 
 // ---------- get favorites ----------
 router.get("/", async (req, res) => {
-    const studentID = req.session.studentID;
-    const query = { tutorID: studentID };
+    //const studentID = req.session.studentID;
 
-    // find student and tutor
-    const student = await db.Student.findOne(ObjectID(studentID));
-    const tutor = await db.Tutor.find(query).toArray();
+    // find student
+    const student = await studentModel.findById("64024d793a406ec318e03661");
 
+    // find tutors in favorites
+    const tutors = await tutorModel.find({
+        _id: {
+            $in: Object.keys(student.favorites).map((id) => ObjectID(id)),
+        },
+    });
+
+    res.send(tutors);
     // render favorites page
-    res.render("favorites", { student, tutor });
+    //res.render("favorites", {
+    //    title: "Favorites",
+    //    tutors,
+    //});
 });
 
 // ---------- put favorites ----------
@@ -22,8 +34,8 @@ router.put("/", async (req, res) => {
     const studentID = req.session.studentID;
     const tutorID = req.body.tutorID;
 
-    const student = await db.Student.findOne(ObjectID(studentID));
-    const tutor = await db.Tutor.findOne(ObjectID(tutorID));
+    const student = await studentModel.findOne(ObjectID(studentID));
+    const tutor = await tutorModel.findOne(ObjectID(tutorID));
 
     // if tutor is already in favorites, remove it
     if (student.favorites[tutorID]) {
@@ -34,7 +46,7 @@ router.put("/", async (req, res) => {
     }
 
     // update student favorites
-    await db.Student.updateOne(
+    await studentModel.updateOne(
         // find student
         { _id: ObjectID(studentID) },
         // set favorites to student favorites
@@ -51,13 +63,13 @@ router.delete("/", async (req, res) => {
     const tutorID = req.body.tutorID;
 
     // find student
-    const student = await db.Student.findOne(ObjectID(studentID));
+    const student = await studentModel.findOne(ObjectID(studentID));
 
     // delete tutor from favorites
     delete student.favorites[tutorID];
 
     // update student favorites
-    await db.Student.updateOne(
+    await studentModel.updateOne(
         // find student
         { _id: ObjectID(studentID) },
         // set favorites to student favorites
