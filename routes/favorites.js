@@ -5,7 +5,7 @@ const path = require("path");
 const router = express.Router();
 
 // ---------- get favorites ----------
-router.get("/favorites", async (req, res) => {
+router.get("/", async (req, res) => {
     const studentID = req.session.studentID;
     const query = { tutorID: studentID };
 
@@ -18,7 +18,7 @@ router.get("/favorites", async (req, res) => {
 });
 
 // ---------- put favorites ----------
-router.put("/favorites", async (req, res) => {
+router.put("/", async (req, res) => {
     const studentID = req.session.studentID;
     const tutorID = req.body.tutorID;
 
@@ -42,12 +42,11 @@ router.put("/favorites", async (req, res) => {
     );
 
     // redirect to favorites
-    res.redirect("/favorites");
+    res.redirect("/");
 });
 
-
 // ---------- delete favorites ----------
-router.delete("/favorites", async (req, res) => {
+router.delete("/", async (req, res) => {
     const studentID = req.session.studentID;
     const tutorID = req.body.tutorID;
 
@@ -66,7 +65,7 @@ router.delete("/favorites", async (req, res) => {
     );
 
     // redirect to favorites
-    res.redirect("/favorites");
+    res.redirect("/");
 });
 
 // Exporting router
