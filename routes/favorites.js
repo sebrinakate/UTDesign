@@ -51,16 +51,11 @@ router.delete("/favorites", async (req, res) => {
     const studentID = req.session.studentID;
     const tutorID = req.body.tutorID;
 
+    // find student
     const student = await db.Student.findOne(ObjectID(studentID));
-    const tutor = await db.Tutor.findOne(ObjectID(tutorID));
 
-    // if tutor is already in favorites, remove it
-    if (student.favorites[tutorID]) {
-        delete student.favorites[tutorID];
-    } else {
-        // else add tutor to favorites
-        student.favorites[tutorID] = tutor;
-    }
+    // delete tutor from favorites
+    delete student.favorites[tutorID];
 
     // update student favorites
     await db.Student.updateOne(
