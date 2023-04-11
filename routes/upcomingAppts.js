@@ -12,36 +12,28 @@ router.get("/", (req, res) => {
 // Exporting router
 module.exports = router;
 
-// Handling upcomingAppts for student
+// get upcomingAppts for student
 router.get("/upcomingAppts", async (req, res) => {
-    const email = req.body.email;
-
     // Finding user document in database with email of logged in account
     // retrieve the upcoming appointments
     try {
-        const upcomingAppts = await studentModel.find({email: email}).select("upcomingAppts");
+        const upcomingAppts = await studentModel.find({loggedIn: true}).select("upcomingAppts");
         res.send(upcomingAppts);
     }
     catch (err) {
         res.status(500).json({message: err.message});
     }
-    // Redirecting to home page
-    res.redirect("/");
 });
 
-// Handling upcomingAppts for tutor
+// get upcomingAppts for tutor
 router.get("/upcomingAppts", async (req, res) => {
-    const email = req.body.email;
-
     // Finding user document in database with email of logged in account
     // retrieve the upcoming appointments
     try {
-        const upcomingAppts = await tutorModel.find({email: email}).select("upcomingAppts");
+        const upcomingAppts = await tutorModel.find({loggedIn: true}).select("upcomingAppts");
         res.send(upcomingAppts);
     }
     catch (err) {
         res.status(500).json({message: err.message});
     }
-    // Redirecting to home page
-    res.redirect("/");
 });

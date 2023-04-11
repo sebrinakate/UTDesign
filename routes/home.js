@@ -13,28 +13,23 @@ router.get("/", (req, res) => {
 // Exporting router
 module.exports = router;
 
-// handling student total hours
+// get student total hours
 router.get("/", async (Req, res) => {
-// TODO: specify the specific student?
-const email = req.body.email;
-
  try {
-  const totalHours = await studentModel.find({email: email}).select("totalHours");
+  const totalHours = await studentModel.find({loggedIn: true}).select("totalHours");
   res.send(totalHours);
 } catch (err) {
   res.status(500).json({message: err.message});
 }
 });
 
-// handling tutor total hours
+// get tutor total hours
 router.get("/", async (Req, res) => {
-  // TODO: specify the specific tutor?
-  const email = req.body.email;
-
   try {
-   const totalHours = await tutorModel.find({email: email}).select("totalHours");
+   const totalHours = await tutorModel.find({loggedIn: true}).select("totalHours");
    res.send(totalHours);
  } catch (err) {
    res.status(500).json({message: err.message});
  }
+ // might have to use render to output on the frontend
  });
