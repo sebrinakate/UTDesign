@@ -10,23 +10,17 @@ const router = express.Router();
 // ---------- get favorites ----------
 router.get("/", async (req, res) => {
     //const studentID = req.session.studentID;
+    const studentID = "5f9f1b0b1b9d8c1b2c8b8b1a";
 
-    // find student
-    const student = await studentModel.findById("64024d793a406ec318e03661");
-
-    // find tutors in favorites
-    const tutors = await tutorModel.find({
-        _id: {
-            $in: Object.keys(student.favorites).map((id) => ObjectID(id)),
-        },
-    });
-
-    res.send(tutors);
-    // render favorites page
-    //res.render("favorites", {
-    //    title: "Favorites",
-    //    tutors,
-    //});
+    // find student's favorite tutors
+    try{
+        const favTutors = await studentModel.findById(studentID).select("favoriteTutors");
+        //const favTutors = await studentModel.find({loggedIn: true}).select("favoriteTutors");
+        res.send(favTutors);
+    }
+    catch(err){
+        res.status(500).json({message: err.message});
+    }
 });
 
 // ---------- put favorites ----------
