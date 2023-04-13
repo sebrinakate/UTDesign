@@ -19,20 +19,15 @@ app.use(express.static(path.join(__dirname, "frontend")));
 // Importing routes
 const homeRoute = require("./routes/home.js");
 const userLoginRoute = require("./routes/userLogin.js");
+const tutorProfileRoute = require("./routes/tutorProfile.js")
 
 // Handling routes requests
 app.use("/", homeRoute);
 app.use("/userLogin", userLoginRoute);
 
-// THIS IS JUST TO TEST CONNECTION TO DATABASE
-// YOU CAN DELETE THIS
-// CAN USE AS A REFERENCE FOR HOW TO USE MONGOOSE
-const studentSchema = require("./models/student");
-const tutorSchema = require("./models/tutor");
-app.get("/test", async (req, res) => {
-  res.send(await studentSchema.find());
-});
+app.use(express.json())
+app.use("/api", tutorProfileRoute);
 
 app.listen(port, () => {
   console.log(`Server open on port: ${port}`);
-}); 
+});
