@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const studentModel = require("../models/student");
+const tutorModel = require("../models/tutor");
 
 // Creating express router  
 const router = express.Router();
@@ -12,7 +14,7 @@ router.get("/", (req, res) => {
 // Exporting router
 module.exports = router;
 
-// get upcomingAppts for student
+// get upcomingAppts for student (possibly join with tutor using same objectID?)
 router.get("/upcomingAppts", async (req, res) => {
     // Finding user document in database with email of logged in account
     // retrieve the upcoming appointments

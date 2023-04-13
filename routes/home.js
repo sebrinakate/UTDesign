@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const studentModel = require("../models/student");
+const tutorModel = require("../models/tutor");
 
 
 // Creating express router  
@@ -13,7 +15,7 @@ router.get("/", (req, res) => {
 // Exporting router
 module.exports = router;
 
-// get student total hours
+// get student total hours (possibly join with tutor using same objectID?)
 router.get("/", async (Req, res) => {
  try {
   const totalHours = await studentModel.find({loggedIn: true}).select("totalHours");
