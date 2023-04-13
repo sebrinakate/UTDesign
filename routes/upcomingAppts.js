@@ -17,10 +17,10 @@ router.get("/upcomingAppts", async (req, res) => {
     // Finding user document in database with email of logged in account
     // retrieve the upcoming appointments
     try {
-        //const upcomingAppts = await studentModel.find({loggedIn: true}).select("upcomingAppts");
-        const upcomingAppts = await studentModel.find({'name.firstName': 'Rina'}).select("upcomingAppts");
+        const upcomingAppts = await studentModel.find({loggedIn: true}).select("upcomingAppts");
+        //const upcomingAppts = await studentModel.find({'name.firstName': 'Rina'}).select("favoriteTutors");
         res.send(upcomingAppts);
-        console.log(upcomingAppts);
+        //console.log(upcomingAppts);
     }
     catch (err) {
         res.status(500).json({message: err.message});
@@ -32,10 +32,9 @@ router.get("/upcomingAppts", async (req, res) => {
     // Finding user document in database with email of logged in account
     // retrieve the upcoming appointments
     try {
-        //const upcomingAppts = await tutorModel.find({loggedIn: true}).select("upcomingAppts");
-        const upcomingAppts = await tutorModel.find({'name.firstName': 'Cynthia'}).select("upcomingAppts");
+        const upcomingAppts = await tutorModel.find({loggedIn: true}).select("upcomingAppts");
+        //const upcomingAppts = await tutorModel.find({'name.firstName': 'Cynthia'}).select("upcomingAppts");
         res.send(upcomingAppts);
-        console.log(upcomingAppts);
     }
     catch (err) {
         res.status(500).json({message: err.message});
