@@ -9,13 +9,14 @@ const router = express.Router();
 
 // ---------- get favorites ----------
 router.get("/", async (req, res) => {
-    //const studentID = req.session.studentID;
-    const studentID = "5f9f1b0b1b9d8c1b2c8b8b1a";
+    const studentID = req.session.studentID;
+    //const studentID = "64079e1948dede36ae877bfe";
 
     // find student's favorite tutors
     try{
-        const favTutors = await studentModel.findById(studentID).select("favoriteTutors");
-        //const favTutors = await studentModel.find({loggedIn: true}).select("favoriteTutors");
+        //const favTutors = await studentModel.findById(studentID).select("favoriteTutors");
+        // this returns student id and favoriteTutors
+        const favTutors = await studentModel.find({loggedIn: true}).select("favoriteTutors");
         res.send(favTutors);
     }
     catch(err){
