@@ -34,7 +34,7 @@ router.get("/peaches", async (req, res) => {
 
     // testing
     const studentID = "64079e1948dede36ae877bfe";
-    const tutorID = "643efe14eea3bf3880f15a21";
+    const tutorID = "6435ba187c0414d71edd8e62";
     const student = await studentModel.findById(studentID);
     const tutor = await tutorModel.findById(tutorID).select("name");
 
@@ -88,7 +88,6 @@ router.get("/peaches", async (req, res) => {
         
         res.send(favTutors)
         
-
     }
     catch(err){
         res.status(500).json({message: err.message});
