@@ -35,8 +35,8 @@ router.get("/peaches", async (req, res) => {
     // testing
     const studentID = "64079e1948dede36ae877bfe";
     const tutorID = "6435ba187c0414d71edd8e62";
-    const student = await studentModel.findById(studentID);
-    const tutor = await tutorModel.findById(tutorID).select("name");
+    //const student = await studentModel.findById(studentID);
+    const tutor = await tutorModel.findById(tutorID);
 
     const tutor_name = tutor.name.firstName + " " + tutor.name.lastName;
     //const tutor_name = JSON.stringify(tutor.name);
@@ -44,9 +44,20 @@ router.get("/peaches", async (req, res) => {
 
     //const tst = student.favoriteTutors.includes(objTutor);
     //res.send(tst)
+    //res.send(tutor_name)
     //res.send(objTutor)
 
     try{
+
+        // update student favorites
+        const favTutors = await studentModel.findOneAndUpdate(
+            { _id: studentID },
+            // add tutor to student favorites
+            { $addToSet: { favoriteTutors: objTutor} },
+        );
+        
+        res.send(favTutors)
+
         /*
         // if tutor is already in favorites, remove it
         if (student.favoriteTutors.includes(tutorID)) {
@@ -79,15 +90,6 @@ router.get("/peaches", async (req, res) => {
         }
         */
 
-        // update student favorites
-        const favTutors = await studentModel.findOneAndUpdate(
-            { _id: studentID },
-            // add tutor to student favorites
-            { $addToSet: { favoriteTutors: objTutor} },
-        );
-        
-        res.send(favTutors)
-        
     }
     catch(err){
         res.status(500).json({message: err.message});
@@ -97,27 +99,31 @@ router.get("/peaches", async (req, res) => {
     res.redirect("/");
 });
 
-/*
+
 // ---------- delete favorites ----------
 router.delete("/", async (req, res) => {
-    const studentID = req.session.studentID;
-    const tutorID = req.body.tutorID;
+    //const studentID = req.session.studentID;
+    //const tutorID = req.body.tutorID;
 
-    try{
+    // testing
+    const studentID = "64079e1948dede36ae877bfe";
+    const tutorID = "6435ba187c0414d71edd8e62";
+    const student = await studentModel.findById(studentID);
+    const tutor = await tutorModel.findById(tutorID).select("name");
 
-        // find student
-        const student = await studentModel.findById(studentID);
-
-        // delete tutor from favorites
-        delete student.favoriteTutors[tutorID];
+    const tutor_name = tutor.name.firstName + " " + tutor.name.lastName;
+    objTutor = {tutorID: tutorID, tutorName: tutor_name};
+    try{ 
 
         // update student favorites
         await studentModel.findOneAndUpdate(
             // find student
             { id: studentID },
-            // set favorites to student favorites
-            { $set: { favoriteTutors: tutor } }
+            // remove tutor to student favorites
+            { $pull: { favoriteTutors: objTutor } },
+            {safe: true, multi: false}
         );
+        return res.status(200).json({message: "Tutor removed from favorites"});
 
     }
     catch(err){
@@ -128,7 +134,7 @@ router.delete("/", async (req, res) => {
     // redirect to favorites
     res.redirect("/");
 });
-*/
+
 
 // Exporting router
 module.exports = router;

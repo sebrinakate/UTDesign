@@ -10,8 +10,8 @@ const studentSchema = new mongoose.Schema({
     password:{type: String, required: true},
     favoriteTutors: [
         {
-            tutorId: {type: mongoose.Schema.Types.ObjectId, ref: "Tutor"},
-            tutorName: {String}
+            tutorID: {type: mongoose.Schema.Types.ObjectId, ref: "Tutor"},
+            tutorName: {type: mongoose.Schema.Types.String}
         }
     ],
     totalHours: {Number},
