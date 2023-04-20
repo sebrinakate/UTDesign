@@ -35,7 +35,7 @@ router.get("/peaches", async (req, res) => {
     // testing
     const studentID = "64079e1948dede36ae877bfe";
     const tutorID = "6435ba187c0414d71edd8e62";
-    //const student = await studentModel.findById(studentID);
+    const student = await studentModel.findById(studentID);
     const tutor = await tutorModel.findById(tutorID);
 
     const tutor_name = tutor.name.firstName + " " + tutor.name.lastName;
@@ -48,12 +48,13 @@ router.get("/peaches", async (req, res) => {
     //res.send(objTutor)
 
     try{
-
+        
         // update student favorites
         const favTutors = await studentModel.findOneAndUpdate(
             { _id: studentID },
             // add tutor to student favorites
             { $addToSet: { favoriteTutors: objTutor} },
+            {upsert: true, multi: false, new: true}
         );
         
         res.send(favTutors)
