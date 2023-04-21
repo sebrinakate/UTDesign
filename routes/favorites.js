@@ -51,7 +51,7 @@ router.put("/", async (req, res) => {
             { _id: studentID },
             // add tutor to student favorites
             { $addToSet: { favoriteTutors: objTutor} },
-            {upsert: true, multi: false, new: true}
+            { upsert: true, multi: false, new: true}
         );
         
         res.send(favTutors)
@@ -67,28 +67,30 @@ router.put("/", async (req, res) => {
 
 
 // ---------- delete favorites ----------
-router.delete("/", async (req, res) => {
+router.get("/peaches", async (req, res) => {
     //const studentID = req.session.studentID;
     //const tutorID = req.body.tutorID;
+    //const tutor = await tutorModel.findById(tutorID);
 
     // testing
     const studentID = "64079e1948dede36ae877bfe";
     const tutorID = "6435ba187c0414d71edd8e62";
-    const student = await studentModel.findById(studentID);
-    const tutor = await tutorModel.findById(tutorID).select("name");
+    const tutor = await tutorModel.findById(tutorID);
 
     const tutor_name = tutor.name.firstName + " " + tutor.name.lastName;
     objTutor = {tutorID: tutorID, tutorName: tutor_name};
+
     try{ 
 
         // update student favorites
-        await studentModel.findOneAndUpdate(
-            // find student
-            { id: studentID },
+        const removeFavTutor = await studentModel.findOneAndUpdate(
+            { _id: studentID },
             // remove tutor to student favorites
             { $pull: { favoriteTutors: objTutor } },
-            {safe: true, multi: false}
+            { safe: true, multi: false, upsert: true}
         );
+
+        res.send(removeFavTutor)
         return res.status(200).json({message: "Tutor removed from favorites"});
 
     }
