@@ -67,15 +67,15 @@ router.put("/", async (req, res) => {
 
 
 // ---------- delete favorites ----------
-router.get("/peaches", async (req, res) => {
-    //const studentID = req.session.studentID;
-    //const tutorID = req.body.tutorID;
-    //const tutor = await tutorModel.findById(tutorID);
+router.delete("/", async (req, res) => {
+    const studentID = req.session.studentID;
+    const tutorID = req.body.tutorID;
+    const tutor = await tutorModel.findById(tutorID);
 
     // testing
-    const studentID = "64079e1948dede36ae877bfe";
-    const tutorID = "6435ba187c0414d71edd8e62";
-    const tutor = await tutorModel.findById(tutorID);
+    //const studentID = "64079e1948dede36ae877bfe";
+    //const tutorID = "6435ba187c0414d71edd8e62";
+    //const tutor = await tutorModel.findById(tutorID);
 
     const tutor_name = tutor.name.firstName + " " + tutor.name.lastName;
     objTutor = {tutorID: tutorID, tutorName: tutor_name};
@@ -97,7 +97,6 @@ router.get("/peaches", async (req, res) => {
     catch(err){
         res.status(500).json({message: err.message})
     }
-
 
     // redirect to favorites
     res.redirect("/");
