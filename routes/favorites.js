@@ -26,24 +26,21 @@ router.get("/", async (req, res) => {
 });
 
 // ---------- put favorites ----------
-router.get("/peaches", async (req, res) => {
-    //const studentID = req.session.studentID;
-    //const tutorID = req.body.tutorID;
+router.put("/", async (req, res) => {
+    const studentID = req.session.studentID;
+    const tutorID = req.body.tutorID;
     //const student = await studentModel.find({loggedIn: true});
-    //const tutor = await tutorModel.findbyId(tutorID);
+    const tutor = await tutorModel.findbyId(tutorID);
 
     // testing
-    const studentID = "64079e1948dede36ae877bfe";
-    const tutorID = "6435ba187c0414d71edd8e62";
-    const student = await studentModel.findById(studentID);
-    const tutor = await tutorModel.findById(tutorID);
+    //const studentID = "64079e1948dede36ae877bfe";
+    //const tutorID = "6435ba187c0414d71edd8e62";
+    //const student = await studentModel.findById(studentID);
+    //const tutor = await tutorModel.findById(tutorID);
 
     const tutor_name = tutor.name.firstName + " " + tutor.name.lastName;
-    //const tutor_name = JSON.stringify(tutor.name);
     var objTutor = {tutorID: tutorID, tutorName: tutor_name};
 
-    //const tst = student.favoriteTutors.includes(objTutor);
-    //res.send(tst)
     //res.send(tutor_name)
     //res.send(objTutor)
 
@@ -58,38 +55,6 @@ router.get("/peaches", async (req, res) => {
         );
         
         res.send(favTutors)
-
-        /*
-        // if tutor is already in favorites, remove it
-        if (student.favoriteTutors.includes(tutorID)) {
-            
-            //delete student.favoriteTutors[tutorID];
-            //student.favoriteTutors.pull(tutor);
-
-            const favTutors = await studentModel.findOneAndUpdate(
-                { _id: studentID },
-                // remove tutor to student favorites
-                { $pull: { favoriteTutors: objTutor } },
-            );
-            
-            res.send(favTutors)
-        }   
-        // else add tutor to favorites
-        else {
-            
-            //student.favoriteTutors[tutorID] = tutor;
-            //student.favoriteTutors.push(tutor);
-
-            // update student favorites
-            const favTutors = await studentModel.findOneAndUpdate(
-                { _id: studentID },
-                // add tutor to student favorites
-                { $addToSet: { favoriteTutors: objTutor} },
-            );
-            
-            res.send(favTutors)
-        }
-        */
 
     }
     catch(err){
