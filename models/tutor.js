@@ -20,8 +20,7 @@ const tutorSchema = new mongoose.Schema({
     upcomingAppointments: [
         {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
     ],
-    totalHours: {type: Number},
-    loggedIn: {type: Boolean}
+    totalHours: {type: Number}
 });
 
 // Creating user model

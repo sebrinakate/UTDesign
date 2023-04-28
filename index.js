@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const path = require("path");
-const port = 3000;
+const port = 4000;
 
 // connect to database
 const mongoose = require("mongoose");
@@ -19,10 +19,12 @@ app.use(express.static(path.join(__dirname, "frontend")));
 // Importing routes
 const homeRoute = require("./routes/home.js");
 const userLoginRoute = require("./routes/userLogin.js");
+const tutorLoginRoute = require("./routes/tutorSignUp.js");
 
 // Handling routes requests
 app.use("/", homeRoute);
 app.use("/userLogin", userLoginRoute);
+app.use("/tutorLogin", tutorLoginRoute);
 
 // THIS IS JUST TO TEST CONNECTION TO DATABASE
 // YOU CAN DELETE THIS
