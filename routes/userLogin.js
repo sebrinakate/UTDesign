@@ -1,59 +1,80 @@
 const express = require("express");
 const path = require("path");
 const router = express.Router();
+
+const {createHash}  = require('crypto');
+
 const Student = require("../models/student");
 const Tutor = require("../models/tutor");
 
 // Displaying user login page
-router.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "../frontend/pages/userLogin.html"));
+router.get("/login", (req, res) => {
+    try {
+        res.render("../frontend/templates/userLogin", {});
+    } catch (error) {
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Handling user signup
-router.post("/signup", (req, res) => {
+router.post("/api/signup", async (req, res) => {
 
     // Creating user document
     const student = new Student({
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        name: {
+            firstName: req.body.fname,
+            lastName: req.body.lname
+        },
         email: req.body.email,
-        password: req.body.password
+        password: createHash("sha256").update(req.body.password).digest("hex"),
+        favoriteTutors: [],
+        totalHours: 0,
+        upcomingAppointments: [],
+        loggedIn: true
     });
-
-    // Checking if all fields are filled
-    if(!student.firstName || !student.lastName || !student.email || !student.password) {
-        console.log("Please fill in all fields");
-        return;
-    }
-
-    if(password.length < 8) {
-        console.log("Password must be at least 8 characters long");
-        return;
-    }
 
     // Saving user document to database
-    student.save((err) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log("Student saved to database");
-        }
-    });
-
-    // Redirecting to home page
-    res.redirect("/");
+    try {
+        await student.save();
+        res.status(200);
+    }
+    catch (err) {
+        res.status(400).json({message: err.message});
+    }
 });
 
 // Handling user login
-router.post("/login", (req, res) => {
+router.post("/api/login", async (req, res) => {
 
-    const email = req.body.email;
-    const password = req.body.password;
-    
+    // const email = req.body.email;
+    // const password = req.body.password;
+    // const hashPassword = createHash("sha256").update(password).digest("hex")
+
+    const emailSubmit = req.body.email;
+    const submittedPassword = createHash("sha256").update(req.body.password).digest("hex");
+
     // Finding user document in database
+    let person, userRole;
+    try {
+        person = await Tutor.findOne({ $and: [ { email: emailSubmit }, { password: submittedPassword }  ] })
+        userRole = "tutor";
+    } catch (error) {
+        console.log(error);
+    }
+    if (!person) {
+        try {
+            person = await Student.findOne({ $and: [ { email: emailSubmit }, { password: submittedPassword }  ] });
+            userRole = "student";
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
-    // Redirecting to home page
-    res.redirect("/");
+    if (person && Object.keys(person).length > 0) {
+        return res.json({ id: person.id, role: userRole });
+    }
+    else
+        return res.json({ id: false });
 });
 
 module.exports = router;

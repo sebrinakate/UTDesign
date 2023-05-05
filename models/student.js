@@ -9,16 +9,12 @@ const studentSchema = new mongoose.Schema({
     email: {type: String, required: true},
     password:{type: String, required: true},
     favoriteTutors: [
-        {
-            tutorId: {type: mongoose.Schema.Types.ObjectId, ref: "Tutor"},
-            tutorName: {String}
-        }
+        {type: mongoose.Schema.Types.ObjectId, ref: "Tutor"}
     ],
-    totalHours: {Number},
+    totalHours: {type: Number},
     upcomingAppointments: [
         {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
-    ],
-    loggedIn: {type: Boolean}
+    ]
 });
 
 // Creating user model
