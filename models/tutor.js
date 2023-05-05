@@ -8,12 +8,15 @@ const tutorSchema = new mongoose.Schema({
     },
     email: {type: String, required: true},
     password: {type: String, required: true},
-    availablility: [
-        {
-            day: {type: String},
-            hours: []
-        }
-    ],
+    aboutMe: {type: String},
+    availablility: {
+            days: [
+                {type: String}
+            ],
+            hours: [
+                {type: String}
+            ]
+        },
     subjects: [
         {type: String}
     ],
@@ -21,7 +24,7 @@ const tutorSchema = new mongoose.Schema({
         {type: mongoose.Schema.Types.ObjectId, ref: "Appointment"}
     ],
     totalHours: {type: Number},
-    loggedIn: {type: Boolean}
+    profilePic: {type: String}
 });
 
 // Creating user model
