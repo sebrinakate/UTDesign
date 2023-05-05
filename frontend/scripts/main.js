@@ -5,8 +5,7 @@ function handleLogout() {
 }
 
 window.onload = function() {
-    localStorage.getItem('userRole');
-    if ('userRole' == 'tutor') {
+    if (localStorage.getItem('role')== 'tutor') {
         document.querySelector('.favorites').style.display = 'none';
     }
 }

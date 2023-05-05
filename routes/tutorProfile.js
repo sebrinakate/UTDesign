@@ -80,9 +80,9 @@ router.post("/api/appointment-sign-up", async function (req, res) {
         // Create and save new appointment with the student, tutor, and date
         const appointment = new Appointment({
             studentId: student._id,
-            studentName: student.name.firstName,
+            studentName: student.name.firstName + " " + student.name.lastName,
             tutorId: tutor._id,
-            tutorName: tutor.name.firstName,
+            tutorName: tutor.name.firstName + " " + tutor.name.lastName,
             date: new Date(date),
             link: ' '
         });
